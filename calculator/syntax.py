@@ -117,6 +117,19 @@ def rightElementIndex(stack,position):
 		position = position+1
 
 
+
+def convertInt(string1):
+	dotIndex = string1.find(".")
+	for x in range(dotIndex+1, len(string1)):
+		print("X: "+str(x))
+		print("string1: "+str(string1[x]))
+		if string1[x] != "0":
+			return False
+
+	return True
+
+
+
 def extractResult(tmpstack,operation):
 	if operation in tmpstack:
 		operationIndex = [n for n,x in enumerate(tmpstack) if x==operation]
@@ -134,6 +147,7 @@ def extractResult(tmpstack,operation):
 			tmpstack[x]=" "
 			tmpstack[x+1] =" " 
 			print(str(tmpstack))
+
 
 
 #output the values in the stack
@@ -158,7 +172,6 @@ def computeStackValues(stack,text):
 			else:
 				divideByZero = True
 
-
 	if divideByZero != True:
 		extractResult(tmpstack,'X')
 		extractResult(tmpstack,'+')
@@ -166,6 +179,12 @@ def computeStackValues(stack,text):
 		result=tmpstack[0]
 
 	
+	#difference the result between float and integer
+
+	if convertInt(str(result)) == True:
+		print("Convert to Int")
+		result=int(result)
+
 	stack.clear()
 	stack.append(result)
 
