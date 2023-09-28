@@ -105,7 +105,7 @@ def leftElementIndex(stack,position):
 	start = 0
 	while position != -1 :
 		if stack[position] != " ":
-			return stack[position]
+			return position
 		position = position -1
 
 
@@ -113,7 +113,7 @@ def rightElementIndex(stack,position):
 	end = len(stack)
 	while position != end :
 		if stack[position] != " ":
-			return stack[position]
+			return position
 		position = position+1
 
 
@@ -131,21 +131,22 @@ def convertInt(string1):
 
 
 def extractResult(tmpstack,operation):
+	print("Current Operation : " + str(operation))
 	if operation in tmpstack:
 		operationIndex = [n for n,x in enumerate(tmpstack) if x==operation]
 		for x in operationIndex:
 			left = leftElementIndex(tmpstack,x-1)
 			right = rightElementIndex(tmpstack,x+1)
 			if operation == "X":
-				result = multiply(left, right)  
+				result = multiply(tmpstack[left], tmpstack[right])  
 			elif operation == "+":
-				result = add(left, right)  
+				result = add(tmpstack[left], tmpstack[right]) 
 			elif operation == "-":
-				result = subtract(left, right)
+				result = subtract(tmpstack[left], tmpstack[right]) 
 
-			tmpstack[x-1] = result
+			tmpstack[left] = result
 			tmpstack[x]=" "
-			tmpstack[x+1] =" " 
+			tmpstack[right] =" " 
 			print(str(tmpstack))
 
 
@@ -159,15 +160,14 @@ def computeStackValues(stack,text):
 		divideIndex = [n for n,x in enumerate(tmpstack) if x=='%']
 		print("Index position in list: "+str(divideIndex)+" type: "+str(type(divideIndex)))
 		for x in divideIndex:
-			left = leftElementIndex(tmpstack,x-1)
-			print("Left element: "+str(left))
-			right = rightElementIndex(tmpstack,x+1)
-			print("Right element: "+str(left))
+			left = tmpstack[leftElementIndex(tmpstack,x-1)]
+			right =tmpstack[ rightElementIndex(tmpstack,x+1)]
 			result = divide(left,right)
 			if result != "Error" :
 				tmpstack[x-1] = result
 				tmpstack[x]=" "
 				tmpstack[x+1] =" "
+				print("tmpstack: "+ str(tmpstack))
 
 			else:
 				divideByZero = True
@@ -182,6 +182,7 @@ def computeStackValues(stack,text):
 	#difference the result between float and integer
 
 	if convertInt(str(result)) == True:
+		print("result: "+str(result))
 		print("Convert to Int")
 		result=int(result)
 
