@@ -1,5 +1,8 @@
 from logik import *
 
+from minimax import *
+import random
+
 ROWS=3
 COLUMN=3
 
@@ -24,8 +27,8 @@ def userInput():
 
 	while validInput == False:
 		print("The value of x and y should be between 1 to 3")
-		x = int(input("Enter a number: "))
-		y = int(input("Enter a number: "))
+		x = int(input("Enter a ROW number (1-3): "))
+		y = int(input("Enter a COLUMN number(1-3): "))
 		validInput= outOfBound(x,y)
 		if validInput == True: 
 			validInput = validPosition(x-1,y-1)
@@ -33,8 +36,35 @@ def userInput():
 	return x-1,y-1
 
 
-def getInput():
-	x,y = userInput()
+def compRandomInput():
+	validInput = False
+	while validInput == False:
+		print("The value of x and y should be between 1 to 3")
+		x = random.randint(1,3)
+		y = random.randint(1,3)
+		validInput= outOfBound(x,y)
+		if validInput == True: 
+			validInput = validPosition(x-1,y-1)
+
+	return x-1,y-1
+
+
+
+def compHardInput(player):
+	print("The value of x and y should be between 1 to 3")
+	x,y = getPosition(getGameArray(),player)
+	print(f"x: {x} + y: {y}")
+	return x,y
+
+
+
+def getInput(num,player):
+	if num == 0:
+		x,y = userInput()
+	elif num == 1:
+		x,y = compRandomInput()
+	else:
+		x,y = compHardInput(player)
 	return x,y  #array start from 0
 
 
